@@ -1,4 +1,5 @@
-﻿using System;
+﻿using DAL;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,5 +9,9 @@ namespace BLL
 {
     public class Class1
     {
+        public static void DATA()
+        {
+            Mostrar.GetInstance().Empezar();
+        }
     }
 }
