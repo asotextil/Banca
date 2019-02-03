@@ -1,0 +1,4 @@
+use asotextildb
+db.createUser({ user: "demouser", pwd: "Fidelitas123", roles: [{ role: "readWrite", db: "asotextildb" }]})
+db.Carro.save({Nombre:"Nissan"})
+db.Carro.save({Nombre:"Toyota"})
