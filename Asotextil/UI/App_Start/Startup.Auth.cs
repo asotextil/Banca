@@ -1,10 +1,10 @@
-﻿using System;
-using Microsoft.AspNet.Identity;
+﻿using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
-using Microsoft.Owin.Security.Google;
 using Owin;
+using Owin.Security.Providers.LinkedIn;
+using System;
 using UI.Models;
 
 namespace UI
@@ -34,7 +34,7 @@ namespace UI
                         validateInterval: TimeSpan.FromMinutes(30),
                         regenerateIdentity: (manager, user) => user.GenerateUserIdentityAsync(manager))
                 }
-            });            
+            });
             app.UseExternalSignInCookie(DefaultAuthenticationTypes.ExternalCookie);
 
             // Permite que la aplicación almacene temporalmente la información del usuario cuando se verifica el segundo factor en el proceso de autenticación de dos factores.
@@ -63,6 +63,11 @@ namespace UI
             //    ClientId = "",
             //    ClientSecret = ""
             //});
+            app.UseLinkedInAuthentication(new LinkedInAuthenticationOptions()
+            {
+                ClientId = "78zx6s09w7f0tb",
+                ClientSecret = "muwOBSEkkD06tKEe"
+            });
         }
     }
 }
