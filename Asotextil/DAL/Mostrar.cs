@@ -10,7 +10,7 @@ using MongoDB.Driver;
 
 namespace DAL
 {
-    public class Mostrar
+    public class Mostrar : MongoContext
     {
         private static Mostrar instance = null;
 
@@ -24,8 +24,7 @@ namespace DAL
 
         public void Empezar()
         {
-            MongoContext.GetInstance();
-            var document = MongoContext.GetInstance().db.GetCollection<Carro>("Carro").AsQueryable<Carro>().ToList();
+            var document = DB.GetCollection<Carro>("Carro").AsQueryable<Carro>().ToList();
             foreach (var item in document)
             {
                 System.Diagnostics.Debug.WriteLine(item.Nombre);

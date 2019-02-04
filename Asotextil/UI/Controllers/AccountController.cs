@@ -1,10 +1,13 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Globalization;
 using System.Linq;
 using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using BLL;
+using DATA;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
@@ -139,7 +142,8 @@ namespace UI.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
-            return View();
+            RegisterViewModel model = new RegisterViewModel { Estado = true, FechaSalida = null};
+            return View(model);
         }
 
         //
@@ -151,21 +155,40 @@ namespace UI.Controllers
         {
             if (ModelState.IsValid)
             {
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
-                var result = await UserManager.CreateAsync(user, model.Password);
-                if (result.Succeeded)
+                var user = new ApplicationUser { UserName = model.Email, Email = model.Email, Cedula = model.Cedula,
+                    Nombre = model.Nombre, Primer_Apellido = model.Primer_Apellido, Segundo_Apellido = model.Segundo_Apellido,
+                    FechaNacimiento = model.FechaNacimiento, FechaIngreso = model.FechaIngreso, Puesto = model.Puesto,
+                    Salario = model.Salario, FechaSalida = model.FechaSalida, Estado = model.Estado };
+                var afiliado = new Afiliado {
+                    Cedula = user.Cedula, Email = user.Email, Estado = user.Estado, FechaIngreso = user.FechaIngreso,
+                    FechaNacimiento = user.FechaNacimiento, FechaSalida = user.FechaSalida, Nombre = user.Nombre,
+                    Password = model.Password, Primer_Apellido = user.Primer_Apellido, Puesto = user.Puesto,
+                    Salario = user.Salario, Segundo_Apellido = user.Segundo_Apellido
+                };
+                try
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
-                    // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
-                    // Enviar correo electrónico con este vínculo
-                    // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
-                    // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
-                    // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
+                    await AccountControllerBLL.GetInstance().Registrar(afiliado);
+                    var result = await UserManager.CreateAsync(user, model.Password);
+                    if (result.Succeeded)
+                    {
+                        await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
-                    return RedirectToAction("Index", "Home");
+                        // Para obtener más información sobre cómo habilitar la confirmación de cuentas y el restablecimiento de contraseña, visite https://go.microsoft.com/fwlink/?LinkID=320771
+                        // Enviar correo electrónico con este vínculo
+                        // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
+                        // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
+                        // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
+
+                        return RedirectToAction("Index", "Home");
+                    }
+                    AddErrors(result);
                 }
-                AddErrors(result);
+                catch (Exception e)
+                {
+                    string[] errors = new string[] { e.Message };
+                    var result = IdentityResult.Failed(errors);
+                    AddErrors(result);
+                }
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario

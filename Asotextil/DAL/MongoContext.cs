@@ -10,27 +10,32 @@ namespace DAL
 {
     public class MongoContext
     {
-        private static MongoContext instance = null;
-        
+        private MongoClient mongoCliente;
 
-        public static MongoContext GetInstance()
+        public MongoClient MongoCliente
         {
-            if (instance == null)
-                instance = new MongoContext();
-            return instance;
+            get { return mongoCliente; }
+            set { mongoCliente = value; }
         }
 
-        public IMongoDatabase db;
-        private MongoClient client;
+        private IMongoDatabase db;
+
+        public IMongoDatabase DB
+        {
+            get { return db; }
+            set { db = value; }
+        }
+        
+        
         public MongoContext()        //constructor   
         {
             // Leyendo credenciales desde app.config file   
             var MongoDatabaseName = ConfigurationManager.AppSettings["MongoDatabaseName"]; //asotextildb  
             var MongoconnectionString = ConfigurationManager.AppSettings["MongoconnectionString"]; //mongodb://demouser:Fidelitas123@localhost:27017/asotextildb 
             // usando connection string
-            client = new MongoClient(MongoconnectionString);
+            mongoCliente = new MongoClient(MongoconnectionString);
             // Obteniendo la base de datos
-            db = client.GetDatabase(MongoDatabaseName);
+            db = mongoCliente.GetDatabase(MongoDatabaseName);
         }
     }
 }

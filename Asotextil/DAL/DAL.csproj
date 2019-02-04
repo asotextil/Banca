@@ -86,6 +86,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AccountControllerDAL.cs" />
+    <Compile Include="IAccount.cs" />
     <Compile Include="MongoContext.cs" />
     <Compile Include="Mostrar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
