@@ -8,106 +8,102 @@
 @using (Html.BeginForm("Register", "Account", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken()
-    <h4>Cree una cuenta nueva.</h4>
-    <hr />
-    @Html.ValidationSummary("", new { @class = "text-danger" })
-    <div class="form-group">
-        @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
+
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h4 class="text-center">Cree una cuenta nueva.</h4>
+            <hr />
+            <div class="form-group form-inline col-md-12 form-inline col-md-12">
+                @Html.LabelFor(m => m.Email, new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.TextBoxFor(m => m.Email, new { @class = "form-control col-md-12", style = "width: inherit;" })
+                    @Html.ValidationMessageFor(model => model.Email, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group form-inline col-md-12">
+                @Html.LabelFor(m => m.Password, new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.PasswordFor(m => m.Password, new { @class = "form-control col-md-12", style = "width: inherit;" })
+                    @Html.ValidationMessageFor(model => model.Password, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group form-inline col-md-12">
+                @Html.LabelFor(m => m.ConfirmPassword, new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control col-md-12", style = "width: inherit;" })
+                    @Html.ValidationMessageFor(model => model.ConfirmPassword, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <br />
+
+            <h4 class="text-center">Datos de Empleado.</h4>
+            <hr />
+            <div class="form-group form-inline col-md-12 col-12">
+                @Html.LabelFor(model => model.FechaIngreso, htmlAttributes: new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.FechaIngreso, new { htmlAttributes = new { @class = "form-control col-md-12", style = "width: inherit;" } })
+                    @Html.ValidationMessageFor(model => model.FechaIngreso, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group form-inline col-md-12">
+                @Html.LabelFor(model => model.Puesto, htmlAttributes: new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.Puesto, new { htmlAttributes = new { @class = "form-control col-md-12", style = "width: inherit;" } })
+                    @Html.ValidationMessageFor(model => model.Puesto, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group form-inline col-md-12">
+                @Html.LabelFor(model => model.Salario, htmlAttributes: new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.Salario, new { htmlAttributes = new { @class = "form-control col-md-12", style = "width: inherit;" } })
+                    @Html.ValidationMessageFor(model => model.Salario, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            @Html.HiddenFor(model => model.Estado, htmlAttributes: new { @checked = true })
+        </div>
+        <div class="col-lg-6 align-self-start">
+            <h4 class="text-center">Datos Personales.</h4>
+            <hr />
+            <div class="form-group form-inline col-md-12">
+                @Html.LabelFor(model => model.Cedula, htmlAttributes: new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control col-md-12", style = "width: inherit;" } })
+                    @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group form-inline col-md-12">
+                @Html.LabelFor(model => model.Nombre, htmlAttributes: new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control col-md-12", style = "width: inherit;" } })
+                    @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group form-inline col-md-12">
+                @Html.LabelFor(model => model.Primer_Apellido, htmlAttributes: new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.Primer_Apellido, new { htmlAttributes = new { @class = "form-control col-md-12", style = "width: inherit;" } })
+                    @Html.ValidationMessageFor(model => model.Primer_Apellido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group form-inline col-md-12">
+                @Html.LabelFor(model => model.Segundo_Apellido, htmlAttributes: new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.Segundo_Apellido, new { htmlAttributes = new { @class = "form-control col-md-12", style = "width: inherit;" } })
+                    @Html.ValidationMessageFor(model => model.Segundo_Apellido, "", new { @class = "text-danger" })
+                </div>
+            </div>
+            <div class="form-group form-inline col-md-12">
+                @Html.LabelFor(model => model.FechaNacimiento, htmlAttributes: new {  @class = "col-md-5 control-label", style = "justify-content: flex-end" })
+                <div class="col-md-7">
+                    @Html.EditorFor(model => model.FechaNacimiento, new { htmlAttributes = new { @class = "form-control col-md-12", style = "width: inherit;" } })
+                    @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
+                </div>
+            </div>
         </div>
     </div>
-    <div class="form-group">
-        @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(m => m.ConfirmPassword, new { @class = "col-md-2 control-label" })
-        <div class="col-md-10">
-            @Html.PasswordFor(m => m.ConfirmPassword, new { @class = "form-control" })
-        </div>
-    </div>
-
-    <h4>Datos Personales.</h4>
-    <hr />
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Cedula, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Cedula, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Cedula, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Nombre, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Nombre, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Nombre, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Primer_Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Primer_Apellido, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Primer_Apellido, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Segundo_Apellido, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Segundo_Apellido, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Segundo_Apellido, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.FechaNacimiento, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.FechaNacimiento, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.FechaNacimiento, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <h4>Datos de Empleado.</h4>
-    <hr />
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.FechaIngreso, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.FechaIngreso, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.FechaIngreso, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Puesto, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Puesto, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Puesto, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-    <div class="form-group">
-        @Html.LabelFor(model => model.Salario, htmlAttributes: new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
-            @Html.EditorFor(model => model.Salario, new { htmlAttributes = new { @class = "form-control" } })
-            @Html.ValidationMessageFor(model => model.Salario, "", new { @class = "text-danger" })
-        </div>
-    </div>
-
-
-    @Html.HiddenFor(model => model.Estado, htmlAttributes: new { @checked = true });
-
-    <div class="form-group">
-        <div class="col-md-offset-2 col-md-10">
-            <input type="submit" class="btn btn-success" value="Registrarse" />
-        </div>
+    <br />
+    <div class="row justify-content-center">
+        <input type="submit" class="btn btn-success col-md-3" value="Registrarse" />
     </div>
 }
 

@@ -71,7 +71,7 @@ namespace UI.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }
@@ -82,21 +82,21 @@ namespace UI.Models
         public string ConfirmPassword { get; set; }
 
         [Required]
-        [StringLength(11, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 9)]
+        [StringLength(11, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 9)]
         public String Cedula { get; set; }
 
         [Required]
-        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public String Nombre { get; set; }
 
         [Required]
         [Display(Name = "Primer Apellido")]
-        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public String Primer_Apellido { get; set; }
 
         [Required]
         [Display(Name = "Segundo Apellido")]
-        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public String Segundo_Apellido { get; set; }
 
         [Required]
@@ -114,7 +114,7 @@ namespace UI.Models
         public DateTime FechaIngreso { get; set; }
 
         [Required]
-        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public String Puesto { get; set; }
 
 
@@ -137,7 +137,7 @@ namespace UI.Models
         public string Email { get; set; }
 
         [Required]
-        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 6)]
+        [StringLength(100, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 6)]
         [DataType(DataType.Password)]
         [Display(Name = "Contraseña")]
         public string Password { get; set; }

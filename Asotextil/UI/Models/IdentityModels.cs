@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.ComponentModel.DataAnnotations;
+using System.Web.Mvc;
 
 namespace UI.Models
 {
@@ -19,21 +20,21 @@ namespace UI.Models
             return userIdentity;
         }
         [Required]
-        [StringLength(11, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 9)]
+        [StringLength(11, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 9)]
         public String Cedula { get; set; }
 
         [Required]
-        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public String Nombre { get; set; }
 
         [Required]
         [Display(Name = "Primer Apellido")]
-        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public String Primer_Apellido { get; set; }
 
         [Required]
         [Display(Name = "Segundo Apellido")]
-        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe sestar entre {2} y {1}.", MinimumLength = 2)]
         public String Segundo_Apellido { get; set; }
 
         [Required]
@@ -51,7 +52,7 @@ namespace UI.Models
         public DateTime FechaIngreso { get; set; }
 
         [Required]
-        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe ser al menos {2}.", MinimumLength = 2)]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
         public String Puesto { get; set; }
 
 

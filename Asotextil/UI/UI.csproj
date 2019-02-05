@@ -146,6 +146,7 @@
     <Reference Include="System.Runtime.InteropServices.RuntimeInformation, Version=4.0.1.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
       <HintPath>..\packages\System.Runtime.InteropServices.RuntimeInformation.4.3.0\lib\net45\System.Runtime.InteropServices.RuntimeInformation.dll</HintPath>
     </Reference>
+    <Reference Include="System.Transactions" />
     <Reference Include="System.Web.DynamicData" />
     <Reference Include="System.Web.Entity" />
     <Reference Include="System.Web.ApplicationServices" />
@@ -212,6 +213,10 @@
     <Compile Include="Migrations\201902042031503_Datos Registro.cs" />
     <Compile Include="Migrations\201902042031503_Datos Registro.Designer.cs">
       <DependentUpon>201902042031503_Datos Registro.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201902050424024_Especificacion de Propiedades.cs" />
+    <Compile Include="Migrations\201902050424024_Especificacion de Propiedades.Designer.cs">
+      <DependentUpon>201902050424024_Especificacion de Propiedades.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -346,6 +351,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201902042031503_Datos Registro.resx">
       <DependentUpon>201902042031503_Datos Registro.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201902050424024_Especificacion de Propiedades.resx">
+      <DependentUpon>201902050424024_Especificacion de Propiedades.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

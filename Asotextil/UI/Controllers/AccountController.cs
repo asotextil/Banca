@@ -12,6 +12,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UI.Models;
+using System.Transactions;
 
 namespace UI.Controllers
 {
@@ -165,10 +166,10 @@ namespace UI.Controllers
                     Password = model.Password, Primer_Apellido = user.Primer_Apellido, Puesto = user.Puesto,
                     Salario = user.Salario, Segundo_Apellido = user.Segundo_Apellido
                 };
+                var result = IdentityResult.Success;
                 try
                 {
-                    await AccountControllerBLL.GetInstance().Registrar(afiliado);
-                    var result = await UserManager.CreateAsync(user, model.Password);
+                    result = await UserManager.CreateAsync(user, model.Password);
                     if (result.Succeeded)
                     {
                         await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
@@ -178,17 +179,15 @@ namespace UI.Controllers
                         // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                         // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                         // await UserManager.SendEmailAsync(user.Id, "Confirmar cuenta", "Para confirmar la cuenta, haga clic <a href=\"" + callbackUrl + "\">aquí</a>");
-
+                        await AccountControllerBLL.GetInstance().Registrar(afiliado);
                         return RedirectToAction("Index", "Home");
                     }
-                    AddErrors(result);
                 }
                 catch (Exception e)
                 {
-                    string[] errors = new string[] { e.Message };
-                    var result = IdentityResult.Failed(errors);
-                    AddErrors(result);
+                    result = IdentityResult.Failed(new string[] { e.Message });
                 }
+                AddErrors(result);
             }
 
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
