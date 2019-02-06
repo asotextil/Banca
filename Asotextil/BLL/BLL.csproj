@@ -32,6 +32,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.AspNet.Identity.Core">
+      <HintPath>..\packages\Microsoft.AspNet.Identity.Core.2.2.2\lib\net45\Microsoft.AspNet.Identity.Core.dll</HintPath>
+    </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
@@ -45,7 +48,9 @@
     <Compile Include="AccountControllerBLL.cs" />
     <Compile Include="Class1.cs" />
     <Compile Include="IAccount.cs" />
+    <Compile Include="ICrud.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="RolControllerBLL.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DAL\DAL.csproj">

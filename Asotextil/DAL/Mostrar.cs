@@ -13,14 +13,8 @@ namespace DAL
     public class Mostrar : MongoContext
     {
         private static Mostrar instance = null;
-
-
-        public static Mostrar GetInstance()
-        {
-            if (instance == null)
-                instance = new Mostrar();
-            return instance;
-        }
+        
+        public static Mostrar Instance { get => instance ?? new Mostrar(); }
 
         public void Empezar()
         {

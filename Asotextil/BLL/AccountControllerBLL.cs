@@ -5,30 +5,18 @@ using System.Text;
 using System.Threading.Tasks;
 using DAL;
 using DATA;
+using Microsoft.AspNet.Identity;
 
 namespace BLL
 {
     public class AccountControllerBLL : IAccount
     {
         private static AccountControllerBLL instance = null;
+        public static AccountControllerBLL Instance { get => instance ?? new AccountControllerBLL(); }
 
-        public static AccountControllerBLL GetInstance()
+        public async Task<IdentityResult> Registrar(Afiliado afiliado)
         {
-            if (instance == null)
-                instance = new AccountControllerBLL();
-            return instance;
-        }
-
-        public async Task<bool> Registrar(Afiliado afiliado)
-        {
-            try
-            {
-                return await AccountControllerDAL.GetInstance().Registrar(afiliado);
-            }
-            catch (Exception e)
-            {
-                throw;
-            }
+            return await AccountControllerDAL.Instance.Registrar(afiliado);
         }
     }
 }

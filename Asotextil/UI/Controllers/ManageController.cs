@@ -1,29 +1,47 @@
 ﻿using System;
 using System.Linq;
+using System.Net;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
+using BLL;
+using DATA;
 using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.EntityFramework;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using UI.Models;
 
 namespace UI.Controllers
 {
-    [Authorize]
+   // [Authorize]
     public class ManageController : Controller
     {
         private ApplicationSignInManager _signInManager;
         private ApplicationUserManager _userManager;
+        private ApplicationRoleManager _roleManager;
 
         public ManageController()
         {
         }
 
-        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
+        public ManageController(ApplicationUserManager userManager, ApplicationSignInManager signInManager, ApplicationRoleManager rolemanager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
+            RoleManager = rolemanager;
+        }
+
+        public ApplicationRoleManager RoleManager
+        {
+            get
+            {
+                return _roleManager ?? HttpContext.GetOwinContext().Get<ApplicationRoleManager>();
+            }
+            private set
+            {
+                _roleManager = value;
+            }
         }
 
         public ApplicationSignInManager SignInManager
@@ -49,7 +67,142 @@ namespace UI.Controllers
                 _userManager = value;
             }
         }
+        //
+        // GET: /Manage/Role
+        public ActionResult Roles()
+        {
+            var roles = RoleManager.Roles.ToList();
+            return View(roles.Select( r => new RolesViewModel { Id = r.Id, Name = r.Name}));
+        }
 
+        //
+        // GET: /Manage/CreateRole
+        public ActionResult CreateRole()
+        {
+            return View();
+        }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> CreateRole(RolesViewModel model)
+        {
+            if (ModelState.IsValid)
+            {
+                var result = IdentityResult.Success;
+                if (RoleManager.RoleExists(model.Name))
+                    result = IdentityResult.Failed(new string[] { "El Rol ya Existe" });
+                else
+                {
+                    var role = new Role { Nombre = model.Name };
+                    result = await RoleManager.CreateAsync(new IdentityRole(model.Name));
+                    if (result.Succeeded)
+                    {
+                        result = await RolControllerBLL.Instance.Create(role);
+                        if (result.Succeeded)
+                            return RedirectToAction("Roles");
+                    }
+                }
+                AddErrors(result);
+            }
+            // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+            return View(model);
+        }
+        
+        public async Task<ActionResult> EditRole(string id)
+        {
+            var rolesViewModel = await RoleManager.FindByIdAsync(id);
+            if (rolesViewModel == null)
+            {
+                return HttpNotFound();
+            }
+            RolesViewModel rol = new RolesViewModel { Id = rolesViewModel.Id, Name = rolesViewModel.Name };
+            return View(rol);
+        }
+
+        // POST: RolesViewModels/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> EditRole([Bind(Include = "Id,Name")] RolesViewModel rolesViewModel)
+        {
+            if (ModelState.IsValid)
+            {
+                var rol = await RoleManager.FindByIdAsync(rolesViewModel.Id);
+                string name = rol.Name;
+                rol.Name = rolesViewModel.Name;
+                var result = IdentityResult.Success;
+                result = await RoleManager.UpdateAsync(rol);
+                if (result.Succeeded)
+                {
+                    result = await RolControllerBLL.Instance.Edit(new Role { Nombre = rolesViewModel.Name }, name);
+                    if (result.Succeeded)
+                        return RedirectToAction("Roles");
+                }
+                AddErrors(result);
+            }
+            // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+            return View(rolesViewModel);
+        }
+
+        // GET: RolesViewModels/Delete/5
+        public async Task<ActionResult> DeleteRole(string id)
+        {
+            var rolesViewModel = await RoleManager.FindByIdAsync(id);
+            if (rolesViewModel == null)
+            {
+                return HttpNotFound();
+            }
+            RolesViewModel rol = new RolesViewModel { Id = rolesViewModel.Id, Name = rolesViewModel.Name };
+            return View(rol);
+        }
+
+        // POST: RolesViewModels/Delete/5
+        [HttpPost, ActionName("DeleteRole")]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> DeleteRoleConfirmed(string id)
+        {
+            var rol = await RoleManager.FindByIdAsync(id);
+            string name = rol.Name;
+            var result = IdentityResult.Success;
+            result = await RoleManager.DeleteAsync(rol);
+            if (result.Succeeded)
+            {
+                result = await RolControllerBLL.Instance.Delete(new Role { Nombre = name });
+                if (result.Succeeded)
+                    return RedirectToAction("Roles");
+            }
+            AddErrors(result);
+            // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+            return View(rol);
+        }
+
+        ////
+        //// GET: /Manage/RoleToUser
+        //public ActionResult AddRolToUser()
+        //{
+        //    var roles = RoleManager.Roles.ToList();
+        //    var users = UserManager.Users.ToList();
+        //    return View(roles.Select(r => new RolesViewModel { Id = r.Id, Name = r.Name }));
+        //}
+
+        //// POST: RolesToUsers/
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<ActionResult> AddRolToUser(string user, string[] roles)
+        //{
+        //    var rol = await RoleManager.FindByIdAsync(id);
+        //    string name = rol.Name;
+        //    var result = IdentityResult.Success;
+        //    result = await UserManager.AddToRolesAsync(user, roles);
+        //    if (result.Succeeded)
+        //    {
+        //        result = await RolControllerBLL.Instance.Delete(new Role { Nombre = name });
+        //        if (result.Succeeded)
+        //            return RedirectToAction("Roles");
+        //    }
+        //    AddErrors(result);
+        //    // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+        //    return View(rol);
+        //}
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)

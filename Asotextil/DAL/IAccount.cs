@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DATA;
+using Microsoft.AspNet.Identity;
 
 namespace DAL
 {
     interface IAccount
     {
-        Task<Boolean> Registrar(Afiliado afiliado);
+        Task<IdentityResult> Registrar(Afiliado afiliado);
     }
 }

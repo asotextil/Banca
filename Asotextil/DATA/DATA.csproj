@@ -49,6 +49,7 @@
     <Compile Include="Afiliado.cs" />
     <Compile Include="Carro.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Role.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

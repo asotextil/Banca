@@ -4,21 +4,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DATA;
+using Microsoft.AspNet.Identity;
 
 namespace DAL
 {
     public class AccountControllerDAL : MongoContext, IAccount
     {
         private static AccountControllerDAL instance = null;
-        
-        public static AccountControllerDAL GetInstance()
+
+        public static AccountControllerDAL Instance { get => instance ?? new AccountControllerDAL(); }
+
+        public async Task<IdentityResult> Registrar(Afiliado afiliado)
         {
-            if (instance == null)
-                instance = new AccountControllerDAL();
-            return instance;
-        }
-        public async Task<bool> Registrar(Afiliado afiliado)
-        {
+            var result = IdentityResult.Success;
             var session = MongoCliente.StartSession();
             var afiliados = DB.GetCollection<Afiliado>("Afiliado");
             session.StartTransaction();
@@ -27,12 +25,12 @@ namespace DAL
                 await afiliados.InsertOneAsync(afiliado);
                 session.CommitTransaction();
             }
-            catch
+            catch (Exception e)
             {
                 session.AbortTransaction();
-                throw;
+                result = IdentityResult.Failed(new string[] { e.Message });
             }
-            return true;
+            return result;
         }
     }
 }

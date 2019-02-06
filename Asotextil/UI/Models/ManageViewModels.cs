@@ -20,6 +20,12 @@ namespace UI.Models
         public IList<AuthenticationDescription> OtherLogins { get; set; }
     }
 
+    public class RolesViewModel
+    {
+        public string Id { get; set; }
+        public string Name { get; set; }
+    }
+
     public class FactorViewModel
     {
         public string Purpose { get; set; }

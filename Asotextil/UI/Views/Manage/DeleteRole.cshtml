@@ -1,0 +1,32 @@
+﻿@model UI.Models.RolesViewModel
+
+@{
+    ViewBag.Title = "Eliminar";
+}
+
+<h2>Delete</h2>
+
+<h3>Estas seguro de querer eliminar el rol?</h3>
+<div>
+    <h4>Rol</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Name)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Name)
+        </dd>
+
+    </dl>
+
+    @using (Html.BeginForm()) {
+        @Html.AntiForgeryToken()
+
+        <div class="form-actions no-color">
+            <input type="submit" value="Eliminar" class="btn btn-danger" /> |
+            @Html.ActionLink("Volcer Atras", "Index")
+        </div>
+    }
+</div>

@@ -11,7 +11,7 @@ namespace BLL
     {
         public static void DATA()
         {
-            Mostrar.GetInstance().Empezar();
+            Mostrar.Instance.Empezar();
         }
     }
 }
