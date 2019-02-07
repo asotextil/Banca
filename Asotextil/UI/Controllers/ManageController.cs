@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
@@ -174,35 +175,96 @@ namespace UI.Controllers
             // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
             return View(rol);
         }
+        
 
-        ////
-        //// GET: /Manage/RoleToUser
-        //public ActionResult AddRolToUser()
-        //{
-        //    var roles = RoleManager.Roles.ToList();
-        //    var users = UserManager.Users.ToList();
-        //    return View(roles.Select(r => new RolesViewModel { Id = r.Id, Name = r.Name }));
-        //}
+        //
+        // GET: /Manage/RoleToUser
+        public ActionResult AddRolToUser()
+        {
+            List<SelectListItem> users = (
+                    from u in UserManager.Users.ToList()
+                    select new SelectListItem { Text = u.Cedula, Value = u.Email }
+                ).ToList();
+            MultiRolSelect model = new MultiRolSelect { MultiRolSelectId = new List<string>(), SelectedRolesList = new List<RolesViewModel>() };
+            ViewBag.RolesList = GetRolList();
+            ViewBag.User = users;
+            return this.View(model);
+        }
 
-        //// POST: RolesToUsers/
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<ActionResult> AddRolToUser(string user, string[] roles)
-        //{
-        //    var rol = await RoleManager.FindByIdAsync(id);
-        //    string name = rol.Name;
-        //    var result = IdentityResult.Success;
-        //    result = await UserManager.AddToRolesAsync(user, roles);
-        //    if (result.Succeeded)
-        //    {
-        //        result = await RolControllerBLL.Instance.Delete(new Role { Nombre = name });
-        //        if (result.Succeeded)
-        //            return RedirectToAction("Roles");
-        //    }
-        //    AddErrors(result);
-        //    // Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-        //    return View(rol);
-        //}
+        // POST: RolesToUsers/
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<ActionResult> AddRolToUser(MultiRolSelect model, string user )
+        {
+            try
+            {
+                // Verification  
+                if (ModelState.IsValid)
+                {
+                    // Initialization.  
+                    List<RolesViewModel> rolList = (
+                        from r in RoleManager.Roles.ToList()
+                        select new RolesViewModel { Id = r.Id, Name = r.Name }
+                    ).ToList();
+
+                    // Selected countries list.  
+                    model.SelectedRolesList = rolList.Where(p => model.MultiRolSelectId.Contains(p.Id)).Select(q => q).ToList();
+                }
+
+                // Loading drop down lists.  
+                ViewBag.RolesList = this.GetRolList();
+            }
+            catch (Exception ex)
+            {
+                // Info  
+                Console.Write(ex);
+            }
+
+            // Info  
+            return this.View(model);
+            //List<SelectListItem> users = (
+            //        from u in UserManager.Users.ToList()
+            //        select new SelectListItem { Text = u.Cedula, Value = u.Email }
+            //    ).ToList();
+            //ViewData["ddluser"] = users;
+            //ViewData["ddlroles"] = roles;
+            //var rol = await RoleManager.FindByIdAsync(id);
+            //string name = rol.Name;
+            //var result = IdentityResult.Success;
+            //result = await UserManager.AddToRolesAsync(user, roles);
+            //if (result.Succeeded)
+            //{
+            //    result = await RolControllerBLL.Instance.Delete(new Role { Nombre = name });
+            //    if (result.Succeeded)
+            //        return RedirectToAction("Roles");
+            //}
+            //AddErrors(result);
+            //// Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
+            //return View(rol);
+        }
+
+        #region Get country method.  
+
+        /// <summary>  
+        /// Get country method.  
+        /// </summary>  
+        /// <returns>Return country for drop down list.</returns>  
+        private IEnumerable<SelectListItem> GetRolList()
+        { 
+            var list = RoleManager.Roles.ToList()
+                .Select(p =>
+                    new SelectListItem {
+                        Value = p.Id,
+                        Text = p.Name
+                    });
+            SelectList lstobj = new SelectList(list, "Value", "Text");
+            // info.  
+            return lstobj;
+        }
+
+        #endregion
+
+     
         //
         // GET: /Manage/Index
         public async Task<ActionResult> Index(ManageMessageId? message)

@@ -20,11 +20,21 @@ namespace UI
                         "~/Scripts/modernizr-*"));
 
             bundles.Add(new ScriptBundle("~/bundles/bootstrap").Include(
-                      "~/Scripts/bootstrap.js"));
+                        "~/Scripts/umd/popper.min.js",
+                        "~/Scripts/umd/popper-utils.min.js",
+                        "~/Scripts/bootstrap.js"));
+
+            bundles.Add(new ScriptBundle("~/bundles/bootstrap-select").Include(
+                        "~/Scripts/bootstrap-select.min.js",
+                        "~/Scripts/i18n/defaults-es_ES.min.js",
+                        "~/Scripts/role.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
+
+            bundles.Add(new StyleBundle("~/Content/css-bootstrap-select").Include(
+                      "~/Content/bootstrap-select.min.css"));
         }
     }
 }

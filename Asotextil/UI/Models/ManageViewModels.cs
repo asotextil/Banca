@@ -26,6 +26,25 @@ namespace UI.Models
         public string Name { get; set; }
     }
 
+    public class MultiRolSelect
+    {
+        #region Properties  
+
+        /// <summary>  
+        /// Gets or sets choose multiple countries property.  
+        /// </summary>  
+        [Required]
+        [Display(Name = "Seleccione los Roles")]
+        public List<string> MultiRolSelectId { get; set; }
+
+        /// <summary>  
+        /// Gets or sets selected countries property.  
+        /// </summary>  
+        public List<RolesViewModel> SelectedRolesList { get; set; }
+
+        #endregion
+    }
+
     public class FactorViewModel
     {
         public string Purpose { get; set; }

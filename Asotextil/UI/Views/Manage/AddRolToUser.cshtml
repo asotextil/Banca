@@ -1,0 +1,105 @@
+﻿
+
+@using UI.Models
+
+@model UI.Models.MultiRolSelect
+
+@{
+    ViewBag.Title = "AddRolToUser";
+}
+@section Styles
+{
+    @Styles.Render("~/Content/css-bootstrap-select")
+}
+
+<h2>AddRolToUser</h2>
+
+<div class="row">
+    <div class="panel-heading">
+        <div class="col-md-8">
+            <h3>
+                <i class="fa fa-tags"></i>
+                <span>ASP.NET MVC5: Multi Select Dropdown List</span>
+            </h3>
+        </div>
+    </div>
+</div>
+
+<br />
+
+<div class="row">
+    <div class="col-md-6 col-md-push-2">
+        <section>
+            @using (Html.BeginForm("AddRolToUser", "Manage", FormMethod.Post, new { enctype = "multipart/form-data", @class = "form-horizontal", role = "form" }))
+            {
+                @Html.AntiForgeryToken()
+
+                <div class="well bs-component">
+                    <br />
+
+                    <div class="row">
+                        <div class="col-md-6 col-md-push-2">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <span class="input-group-addon icon-custom"><i class="fa fa-flag"></i></span>
+                                    @Html.ListBoxFor(m => m.MultiRolSelectId, this.ViewBag.RolesList as SelectList, new { id = "CountryList", @class = "selectCountry show-tick form-control input-md" })
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-md-6 col-md-push-2">
+                            <div class="form-group">
+                                <input type="submit" class="btn btn-danger" value="Select" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            }
+        </section>
+    </div>
+</div>
+
+<hr />
+
+<div class="row">
+    <div class="col-md-offset-4 col-md-8">
+        <h3>List of Selected Countries </h3>
+    </div>
+</div>
+
+<hr />
+
+@if (Model.SelectedRolesList != null &&
+     Model.SelectedRolesList.Count > 0)
+{
+    <div class="row">
+        <div class="col-md-offset-1 col-md-8">
+            <section>
+                <table class="table table-bordered table-striped">
+                    <thead>
+                        <tr>
+                            <th style="text-align: center;">Sr.</th>
+                            <th style="text-align: center;">Role Monbre</th>
+                        </tr>
+                    </thead>
+
+                    <tbody>
+                        @for (int i = 0; i < Model.SelectedRolesList.Count; i++)
+                        {
+                            <tr>
+                                <td style="text-align: center;">@(i + 1)</td>
+                                <td style="text-align: center;">@Model.SelectedRolesList[i].Name</td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </section>
+        </div>
+    </div>
+}
+
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+    @Scripts.Render("~/bundles/bootstrap-select")
+}
