@@ -30,6 +30,7 @@ namespace UI
                         "~/Scripts/role.js"));
 
             bundles.Add(new StyleBundle("~/Content/css").Include(
+                      "~/Content/font-awesome.min.css",
                       "~/Content/bootstrap.css",
                       "~/Content/site.css"));
 

@@ -183,12 +183,12 @@ namespace UI.Controllers
         {
             List<SelectListItem> users = (
                     from u in UserManager.Users.ToList()
-                    select new SelectListItem { Text = u.Cedula, Value = u.Email }
+                    select new SelectListItem { Text = u.Cedula, Value = u.Cedula }
                 ).ToList();
             MultiRolSelect model = new MultiRolSelect { MultiRolSelectId = new List<string>(), SelectedRolesList = new List<RolesViewModel>() };
             ViewBag.RolesList = GetRolList();
-            ViewBag.User = users;
-            return this.View(model);
+            ViewBag.Users = users;
+            return View(model);
         }
 
         // POST: RolesToUsers/
@@ -196,51 +196,34 @@ namespace UI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> AddRolToUser(MultiRolSelect model, string user )
         {
-            try
+            // Verification  
+            if (ModelState.IsValid)
             {
-                // Verification  
-                if (ModelState.IsValid)
+                // Initialization.  
+                List<RolesViewModel> rolList = (
+                    from r in RoleManager.Roles.ToList()
+                    select new RolesViewModel { Id = r.Id, Name = r.Name }
+                ).ToList();
+                model.SelectedRolesList = rolList.Where(p => model.MultiRolSelectId.Contains(p.Id)).Select(q => q).ToList();
+                string id = UserManager.Users.First(u => u.Cedula.Equals(user)).Id;
+                var result = IdentityResult.Success;
+                result = await UserManager.AddToRolesAsync(id, model.SelectedRolesList.Select(r => r.Name).ToArray());
+                if (result.Succeeded)
                 {
-                    // Initialization.  
-                    List<RolesViewModel> rolList = (
-                        from r in RoleManager.Roles.ToList()
-                        select new RolesViewModel { Id = r.Id, Name = r.Name }
-                    ).ToList();
-
-                    // Selected countries list.  
-                    model.SelectedRolesList = rolList.Where(p => model.MultiRolSelectId.Contains(p.Id)).Select(q => q).ToList();
+                    //result = await RolControllerBLL.Instance.Delete(new Role { Nombre = name });
+                    if (result.Succeeded)
+                        return RedirectToAction("Roles");
                 }
-
-                // Loading drop down lists.  
-                ViewBag.RolesList = this.GetRolList();
+                AddErrors(result);
             }
-            catch (Exception ex)
-            {
-                // Info  
-                Console.Write(ex);
-            }
-
-            // Info  
-            return this.View(model);
-            //List<SelectListItem> users = (
-            //        from u in UserManager.Users.ToList()
-            //        select new SelectListItem { Text = u.Cedula, Value = u.Email }
-            //    ).ToList();
-            //ViewData["ddluser"] = users;
-            //ViewData["ddlroles"] = roles;
-            //var rol = await RoleManager.FindByIdAsync(id);
-            //string name = rol.Name;
-            //var result = IdentityResult.Success;
-            //result = await UserManager.AddToRolesAsync(user, roles);
-            //if (result.Succeeded)
-            //{
-            //    result = await RolControllerBLL.Instance.Delete(new Role { Nombre = name });
-            //    if (result.Succeeded)
-            //        return RedirectToAction("Roles");
-            //}
-            //AddErrors(result);
-            //// Si llegamos a este punto, es que se ha producido un error y volvemos a mostrar el formulario
-            //return View(rol);
+            List<SelectListItem> users = (
+                from u in UserManager.Users.ToList()
+                select new SelectListItem { Text = u.Cedula, Value = u.Cedula }
+            ).ToList();
+            ViewBag.Users = users;
+            // Loading drop down lists. 
+            ViewBag.RolesList = this.GetRolList();
+            return View(model);
         }
 
         #region Get country method.  
