@@ -207,12 +207,18 @@ namespace UI.Controllers
                 model.SelectedRolesList = rolList.Where(p => model.MultiRolSelectId.Contains(p.Id)).Select(q => q).ToList();
                 string id = UserManager.Users.First(u => u.Cedula.Equals(user)).Id;
                 var result = IdentityResult.Success;
-                result = await UserManager.AddToRolesAsync(id, model.SelectedRolesList.Select(r => r.Name).ToArray());
+                var rols = await UserManager.GetRolesAsync(id);
+                result = await UserManager.RemoveFromRolesAsync(id, rols.ToArray());
                 if (result.Succeeded)
                 {
-                    //result = await RolControllerBLL.Instance.Delete(new Role { Nombre = name });
+                    result = await UserManager.AddToRolesAsync(id, model.SelectedRolesList.Select(r => r.Name).ToArray());
                     if (result.Succeeded)
-                        return RedirectToAction("Roles");
+                    {
+                        var listRols = model.SelectedRolesList.Select(r => new Role { Nombre = r.Name }).ToList();
+                        result = await RolControllerBLL.Instance.RolToUser(listRols, user);
+                        if (result.Succeeded)
+                            return RedirectToRoute("Default");
+                    }
                 }
                 AddErrors(result);
             }

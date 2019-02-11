@@ -33,6 +33,11 @@ namespace BLL
             return await RolControllerDAL.Instance.Edit(model, name);
         }
 
+        public async Task<IdentityResult> RolToUser(List<Role> rols, string cedula)
+        {
+            return await RolControllerDAL.Instance.RolToUser(rols, cedula);
+        }
+
         [Obsolete]
         public Task<List<Role>> Listar(Role model)
         {

@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using DATA;
+using MongoDB.Bson;
 
 namespace DAL
 {
@@ -81,6 +82,28 @@ namespace DAL
             var i = await roles.FindAsync<Role>(filtro);
             model.Id = i.First().Id;
             return await Edit(model);
+        }
+
+        public async Task<IdentityResult> RolToUser(List<Role> rols, string cedula)
+        {
+            var result = IdentityResult.Success;
+            var user = DB.GetCollection<Afiliado>("Afiliado");
+            var filtro = Builders<Afiliado>.Filter.Eq("Cedula", cedula);
+            var roles = (from ro in rols select new Roles { Nombre = ro.Nombre }).ToList();
+            var session = MongoCliente.StartSession();
+            var update = Builders<Afiliado>.Update.Set("Roles", roles);
+            session.StartTransaction();
+            try
+            {
+                await user.UpdateOneAsync(filtro, update);
+                session.CommitTransaction();
+            }
+            catch (Exception e)
+            {
+                session.AbortTransaction();
+                result = IdentityResult.Failed(new string[] { e.Message });
+            }
+            return result;
         }
 
         [Obsolete]

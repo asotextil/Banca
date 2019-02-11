@@ -1,12 +1,12 @@
 ﻿$(document).ready(function () {
     // Enable Live Search.  
-    $('#CountryList').attr('data-live-search', true);
+    $('#RolList').attr('data-live-search', true);
 
     //// Enable multiple select.  
-    $('#CountryList').attr('multiple', true);
-    $('#CountryList').attr('data-selected-text-format', 'count');
+    $('#RolList').attr('multiple', true);
+    $('#RolList').attr('data-selected-text-format', 'count');
 
-    $('.selectCountry').selectpicker(
+    $('.selectRol').selectpicker(
         {
             width: '100%',
             title: '- [Seleccione los Roles] -',

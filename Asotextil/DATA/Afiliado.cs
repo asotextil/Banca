@@ -49,9 +49,17 @@ namespace DATA
         [BsonElement("FechaSalida")]
         [BsonDateTimeOptions(DateOnly = true)]
         public DateTime? FechaSalida { get; set; }
+        
+        [BsonElement("Roles")]
+        public List<Role> Roles { get; set; }
 
         [BsonElement("Estado")]
         [BsonDefaultValue(true)]
         public Boolean Estado { get; set; }
+    }
+    public class Roles
+    {
+        [BsonElement("Nombre")]
+        public string Nombre { get; set; }
     }
 }
