@@ -1,9 +1,11 @@
 ﻿@model UI.Models.ExternalLoginListViewModel
 @using Microsoft.Owin.Security
 
-<h4>Use otro servicio para iniciar sesión.</h4>
+
 <hr />
 @{
+    var className = "";
+    var provider = "";
     var loginProviders = Context.GetOwinContext().Authentication.GetExternalAuthenticationTypes();
     if (loginProviders.Count() == 0) {
         <div>
@@ -16,10 +18,13 @@
     else {
         using (Html.BeginForm("ExternalLogin", "Account", new { ReturnUrl = Model.ReturnUrl })) {
             @Html.AntiForgeryToken()
-            <div id="socialLoginList">
+            <div id="socialLoginList" class="text-center">
                 <p>
-                    @foreach (AuthenticationDescription p in loginProviders) {
-                        <button type="submit" class="btn btn-default" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Inicie sesión con su cuenta @p.Caption">@p.AuthenticationType</button>
+                    @foreach (AuthenticationDescription p in loginProviders)
+                    {
+                        provider = p.Caption.ToLower();
+                        className = "btn btn-circle btn-" + provider;
+                        <button type="submit" class="@className" id="@p.AuthenticationType" name="provider" value="@p.AuthenticationType" title="Inicie sesión con su cuenta @p.Caption"><i class="fa fa-@provider"></i></button>
                     }
                 </p>
             </div>

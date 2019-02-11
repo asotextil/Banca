@@ -2,6 +2,7 @@
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin;
 using Microsoft.Owin.Security.Cookies;
+using Microsoft.Owin.Security.Google;
 using Owin;
 using Owin.Security.Providers.LinkedIn;
 using System;
@@ -51,19 +52,22 @@ namespace UI
             //    clientId: "",
             //    clientSecret: "");
 
-            //app.UseTwitterAuthentication(
-            //   consumerKey: "",
-            //   consumerSecret: "");
+            app.UseTwitterAuthentication(new Microsoft.Owin.Security.Twitter.TwitterAuthenticationOptions()
+            {
+                ConsumerKey = "fNlWs5i4PvEMpBpSFiKA34KvJ",
+                ConsumerSecret = "4HZe8buazychfh3DdlR3v5GW16XaYwrylTv0w0R3E9fsNljmkr"
+            });
 
             app.UseFacebookAuthentication(
                appId: "958106064577417",
                appSecret: "54077de72b9673c14e19dd58533b677b");
 
-            //app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
-            //{
-            //    ClientId = "",
-            //    ClientSecret = ""
-            //});
+            app.UseGoogleAuthentication(new GoogleOAuth2AuthenticationOptions()
+            {
+                ClientId = "144246180776-pfp541cbrqputonf0urq81nqjmqltthi.apps.googleusercontent.com",
+                ClientSecret = "-Dvzo50io0Wjr3FwViD_J_GF"
+            });
+
             app.UseLinkedInAuthentication(new LinkedInAuthenticationOptions()
             {
                 ClientId = "78zx6s09w7f0tb",
