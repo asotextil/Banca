@@ -10,7 +10,6 @@ namespace UI.Migrations
         public Configuration()
         {
             AutomaticMigrationsEnabled = false;
-            ContextKey = "UI.Models.ApplicationDbContext";
         }
 
         protected override void Seed(UI.Models.ApplicationDbContext context)
