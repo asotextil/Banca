@@ -358,8 +358,8 @@ namespace UI.Controllers
                 default:
                     // Si el usuario no tiene ninguna cuenta, solicitar que cree una
                     ViewBag.ReturnUrl = returnUrl;
-                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider;
-                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email });
+                    ViewBag.LoginProvider = loginInfo.Login.LoginProvider; 
+                    return View("ExternalLoginConfirmation", new ExternalLoginConfirmationViewModel { Email = loginInfo.Email, Estado=true, Nombre = loginInfo.ExternalIdentity.Name, FechaSalida = null });
             }
         }
 
@@ -383,7 +383,11 @@ namespace UI.Controllers
                 {
                     return View("ExternalLoginFailure");
                 }
-                var user = new ApplicationUser { UserName = model.Email, Email = model.Email };
+                var user = new ApplicationUser {
+                    UserName = model.Email, Email = model.Email, Cedula = model.Cedula,
+                    Nombre = model.Nombre, Primer_Apellido = model.Primer_Apellido, Segundo_Apellido = model.Segundo_Apellido,
+                    FechaNacimiento = model.FechaNacimiento, FechaIngreso = model.FechaIngreso, Puesto = model.Puesto,
+                    Salario = model.Salario, FechaSalida = model.FechaSalida, Estado = model.Estado };
                 var result = await UserManager.CreateAsync(user);
                 if (result.Succeeded)
                 {

@@ -7,8 +7,56 @@ namespace UI.Models
     public class ExternalLoginConfirmationViewModel
     {
         [Required]
+        [EmailAddress]
         [Display(Name = "Correo electrónico")]
         public string Email { get; set; }
+
+        [Required]
+        [StringLength(11, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 9)]
+        public String Cedula { get; set; }
+
+        [Required]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
+        public String Nombre { get; set; }
+
+        [Required]
+        [Display(Name = "Primer Apellido")]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
+        public String Primer_Apellido { get; set; }
+
+        [Required]
+        [Display(Name = "Segundo Apellido")]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
+        public String Segundo_Apellido { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [UIHint("DateTimePicker")]
+        [Display(Name = "Fecha Nacimiento")]
+        public DateTime FechaNacimiento { get; set; }
+
+        [Required]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [UIHint("DateTimePicker")]
+        [Display(Name = "Fecha Ingreso")]
+        public DateTime FechaIngreso { get; set; }
+
+        [Required]
+        [StringLength(40, ErrorMessage = "El número de caracteres de {0} debe estar entre {2} y {1}.", MinimumLength = 2)]
+        public String Puesto { get; set; }
+
+
+        public Double? Salario { get; set; }
+
+        [Display(Name = "Fecha Salida")]
+        [DataType(DataType.Date)]
+        [DisplayFormat(DataFormatString = "{0:MM/dd/yyyy}", ApplyFormatInEditMode = true)]
+        [UIHint("DateTimePicker")]
+        public DateTime? FechaSalida { get; set; }
+
+        public Boolean Estado { get; set; }
     }
 
     public class ExternalLoginListViewModel
