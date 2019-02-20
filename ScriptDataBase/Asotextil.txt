@@ -1,0 +1,59 @@
+﻿{
+    "afiliados": [
+        {
+            "_idAfiliado": 1,
+            "nombre": "Hilary",
+            "apellido1": "Villalobos",
+            "apellido2": "Pizarro",
+            "cedula": 402360153,
+            "fecha_nacimiento": "18/09/1997",
+            "fecha_ingreso": "12/1/18",
+            "puesto": "Manager",
+            "salario_bruto": 750000,
+            "condicion": true
+        }
+    ],
+    "aporte_Asociacion":[
+       {
+            "id_aporte": 1,
+            "aporte_personal": 37500,
+            "aporte_patronal": 37500,
+            "monto_total": 75000,
+            "idAfiliado": 1
+       } 
+    ],
+    "creditos":[
+        {
+            "_idCredito": 1,
+            "proposito": "Adquisición de maquinaria textil",
+            "tasa_interes": 350000,
+            "monto_cuota": 12000000,
+            "cuadro_pagos":{
+                "id_amoritzacion": 1,
+                "cuota": 50000,
+                "capital_pendiente": 11950000,
+                "interes": 39437.5,
+                "amortización": 10562.5,
+                "capital_acumulado": 10562.5,
+                "fecha": "19/02/2019"
+            },
+            "periodo": 24
+        }
+    ],
+    "ahorros":[
+        {
+            "_idAhorro": 1,
+            "tipo": "navideño",
+            "tasa_interes": 200000,
+            "monto": 3000000,
+            "plazo_permanencia": 24,
+	        "cuadro_ahorro":{
+                "_idAporte": 1,
+                "fecha": "12/02/2019",
+                "ahorro": 72000,
+                "acumulado": 72000
+            }
+        }
+    ]
+}
+
